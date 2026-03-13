@@ -6,15 +6,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
-
-const allProducts = [
-  { id: 1, emoji: "👟", name: "Nike Shoes", price: "4,999" },
-  { id: 2, emoji: "👕", name: "Casual T-Shirt", price: "799" },
-  { id: 3, emoji: "🎧", name: "Wireless Headphones", price: "2,499" },
-  { id: 4, emoji: "⌚", name: "Smart Watch", price: "3,499" },
-  { id: 5, emoji: "🎒", name: "Laptop Bag", price: "1,299" },
-  { id: 6, emoji: "🕶️", name: "Sunglasses", price: "999" },
-];
+import ProductDetail from "./pages/ProductDetail";
 
 function AppContent() {
   const { cartItems } = useCart();
@@ -29,7 +21,8 @@ function AppContent() {
 
       <div style={{ flexGrow: 1 }}>
         <Routes>
-          <Route path="/" element={<Home products={allProducts} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
         </Routes>

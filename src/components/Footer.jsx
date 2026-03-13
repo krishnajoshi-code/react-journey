@@ -1,14 +1,6 @@
 function Footer() {
   return (
-    <footer
-      style={{
-        backgroundColor: "#1e293b",
-        color: "white",
-        textAlign: "center",
-        padding: "16px",
-        marginTop: "40px",
-      }}
-    >
+    <footer className="bg-slate-800 text-white text-center py-4 mt-10">
       <p>© 2026 React Mart. Made with ❤️ by Krishna</p>
     </footer>
   );

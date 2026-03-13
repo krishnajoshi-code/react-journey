@@ -5,21 +5,16 @@ function Navbar() {
   const { cartItems } = useCart();
 
   return (
-    <nav style={{
-      backgroundColor: "#1e293b",
-      padding: "16px 24px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      color: "white"
-    }}>
-      <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-        <h2>🛍️ React Mart</h2>
+    <nav className="bg-slate-800 px-6 py-4 flex justify-between items-center text-white">
+      <Link to="/" className="text-white no-underline">
+        <h2 className="text-xl font-bold">🛍️ React Mart</h2>
       </Link>
-      <div>
-        <Link to="/" style={{ color: "white", textDecoration: "none", marginRight: "20px" }}>Home</Link>
-        <Link to="/about" style={{ color: "white", textDecoration: "none", marginRight: "20px" }}>About</Link>
-        <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>Cart 🛒 ({cartItems.length})</Link>
+      <div className="flex gap-5 items-center">
+        <Link to="/" className="text-white no-underline hover:text-blue-300">Home</Link>
+        <Link to="/about" className="text-white no-underline hover:text-blue-300">About</Link>
+        <Link to="/cart" className="text-white no-underline bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-500">
+          Cart 🛒 ({cartItems.length})
+        </Link>
       </div>
     </nav>
   );

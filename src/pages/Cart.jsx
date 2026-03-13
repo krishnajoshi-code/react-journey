@@ -4,71 +4,44 @@ function Cart() {
   const { cartItems, removeFromCart, clearCart } = useCart();
 
   const total = cartItems.reduce((sum, item) => {
-    const price = Number(item.price.replace(",", ""));
+    const price = typeof item.price === "string" ? Number(item.price.replace(",", "")) : item.price;
     return sum + price;
   }, 0);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2>🛒 Your Cart</h2>
+    <div className="p-5 max-w-3xl mx-auto">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">🛒 Your Cart</h2>
         {cartItems.length > 0 && (
-          <button onClick={clearCart} style={{
-            backgroundColor: "#ef4444",
-            color: "white",
-            border: "none",
-            padding: "8px 16px",
-            borderRadius: "8px",
-            cursor: "pointer"
-          }}>Clear Cart 🗑️</button>
+          <button onClick={clearCart} className="bg-red-500 text-white border-none px-4 py-2 rounded-lg cursor-pointer hover:bg-red-600 transition-colors">
+            Clear Cart 🗑️
+          </button>
         )}
       </div>
 
       {cartItems.length === 0 ? (
-        <p style={{ color: "#999", fontSize: "1.2rem", marginTop: "20px" }}>Your cart is empty 😔</p>
+        <div className="text-center mt-10">
+          <div className="text-6xl mb-4">🛒</div>
+          <p className="text-gray-400 text-lg">Your cart is empty 😔</p>
+        </div>
       ) : (
-        <div style={{ marginTop: "20px" }}>
+        <div className="mt-5">
           {cartItems.map((item, index) => (
-            <div key={index} style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              backgroundColor: "white",
-              padding: "16px",
-              borderRadius: "8px",
-              marginBottom: "10px",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.1)"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <span style={{ fontSize: "2rem" }}>{item.emoji}</span>
-                <h3>{item.name}</h3>
+            <div key={index} className="flex justify-between items-center bg-white p-4 rounded-lg mb-3 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
+                <h3 className="text-sm font-semibold max-w-xs">{item.title}</h3>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <p style={{ color: "#059669", fontWeight: "bold", fontSize: "1.1rem" }}>₹{item.price}</p>
-                <button onClick={() => removeFromCart(index)} style={{
-                  backgroundColor: "#fee2e2",
-                  color: "#ef4444",
-                  border: "none",
-                  padding: "6px 12px",
-                  borderRadius: "6px",
-                  cursor: "pointer"
-                }}>Remove</button>
+              <div className="flex items-center gap-4">
+                <p className="text-emerald-600 font-bold">${Number(item.price).toFixed(2)}</p>
+                <button onClick={() => removeFromCart(index)} className="bg-red-50 text-red-500 border-none px-3 py-1 rounded-md cursor-pointer hover:bg-red-100 transition-colors">Remove</button>
               </div>
             </div>
           ))}
 
-          <div style={{
-            marginTop: "20px",
-            padding: "16px",
-            backgroundColor: "#1e293b",
-            color: "white",
-            borderRadius: "8px",
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: "1.2rem"
-          }}>
+          <div className="mt-5 p-4 bg-slate-800 text-white rounded-lg flex justify-between text-lg">
             <strong>Total:</strong>
-            <strong>₹{total.toLocaleString()}</strong>
+            <strong>${Number(total).toFixed(2)}</strong>
           </div>
         </div>
       )}

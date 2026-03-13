@@ -1,58 +1,28 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-function ProductCard({ emoji, name, price, onAdd }) {
+function ProductCard({ id, image, name, price, onAdd }) {
   const [added, setAdded] = useState(false);
 
-  function handleClick() {
+  function handleClick(e) {
+    e.preventDefault();
     setAdded(true);
     onAdd();
+    setTimeout(() => setAdded(false), 1500);
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        borderRadius: "12px",
-        padding: "16px",
-        textAlign: "center",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        width: "220px",
-      }}
-    >
-      <div style={{ fontSize: "4rem" }}>{emoji}</div>
-      <h3>{name}</h3>
-      <p style={{ color: "#059669", fontWeight: "bold", fontSize: "1.2rem" }}>
-        ₹{price}
-      </p>
+    <div className="bg-white rounded-xl p-4 text-center shadow-md w-56 flex flex-col justify-between hover:shadow-lg transition-shadow">
+      <Link to={`/product/${id}`} className="no-underline text-inherit">
+        <img src={image} alt={name} className="w-full h-40 object-contain" />
+        <h3 className="text-sm mt-3 min-h-[40px] font-semibold text-gray-800">{name}</h3>
+      </Link>
+      <p className="text-emerald-600 font-bold text-lg my-2">${price}</p>
 
       {added ? (
-        <button
-          style={{
-            backgroundColor: "#16a34a",
-            color: "white",
-            border: "none",
-            padding: "8px 20px",
-            borderRadius: "8px",
-            marginTop: "8px",
-          }}
-        >
-          Added ✅
-        </button>
+        <button className="bg-green-600 text-white border-none py-2 px-5 rounded-lg">Added ✅</button>
       ) : (
-        <button
-          onClick={handleClick}
-          style={{
-            backgroundColor: "#3b82f6",
-            color: "white",
-            border: "none",
-            padding: "8px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            marginTop: "8px",
-          }}
-        >
-          Add to Cart 🛒
-        </button>
+        <button onClick={handleClick} className="bg-blue-500 text-white border-none py-2 px-5 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors">Add to Cart 🛒</button>
       )}
     </div>
   );
