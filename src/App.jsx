@@ -1,34 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider, useCart } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Toast from "./components/Toast";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
+import NotFound from "./pages/NotFound";
 
 function AppContent() {
-  const { cartItems } = useCart();
+  const { totalItems } = useCart();
+  const [toast, setToast] = useState({ show: false, message: "" });
 
   useEffect(() => {
-    document.title = cartItems.length > 0 ? `(${cartItems.length}) React Mart` : "React Mart";
-  }, [cartItems]);
+    document.title = totalItems > 0 ? `(${totalItems}) React Mart` : "React Mart";
+  }, [totalItems]);
+
+  function showToast(message) {
+    setToast({ show: true, message });
+  }
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <div style={{ flexGrow: 1 }}>
+      <div className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/" element={<Home showToast={showToast} />} />
+          <Route path="/product/:id" element={<ProductDetail showToast={showToast} />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
 
       <Footer />
+      <Toast message={toast.message} show={toast.show} onClose={() => setToast({ show: false, message: "" })} />
     </div>
   );
 }

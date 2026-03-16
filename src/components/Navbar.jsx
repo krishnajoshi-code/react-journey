@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 function Navbar() {
-  const { cartItems } = useCart();
+  const { totalItems } = useCart();
 
   return (
     <nav className="bg-slate-800 px-6 py-4 flex justify-between items-center text-white">
@@ -13,7 +13,7 @@ function Navbar() {
         <Link to="/" className="text-white no-underline hover:text-blue-300">Home</Link>
         <Link to="/about" className="text-white no-underline hover:text-blue-300">About</Link>
         <Link to="/cart" className="text-white no-underline bg-blue-600 px-3 py-1 rounded-full hover:bg-blue-500">
-          Cart 🛒 ({cartItems.length})
+          Cart 🛒 ({totalItems})
         </Link>
       </div>
     </nav>

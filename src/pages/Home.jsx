@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { useCart } from "../context/CartContext";
 
-function Home() {
+function Home({ showToast }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -25,9 +26,16 @@ function Home() {
       });
   }, []);
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const categories = ["all", ...new Set(products.map((p) => p.category))];
+
+  const filteredProducts = products
+    .filter((product) => selectedCategory === "all" || product.category === selectedCategory)
+    .filter((product) => product.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  function handleAdd(product) {
+    addToCart(product);
+    showToast(`${product.title.slice(0, 20)}... added to cart! ✅`);
+  }
 
   if (loading) {
     return (
@@ -60,6 +68,22 @@ function Home() {
         />
       </div>
 
+      <div className="flex gap-2 px-5 mt-4 flex-wrap">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-4 py-2 rounded-full border-none cursor-pointer text-sm capitalize transition-colors ${
+              selectedCategory === cat
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            {cat === "all" ? "All Products" : cat}
+          </button>
+        ))}
+      </div>
+
       <div className="flex gap-5 p-5 flex-wrap">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -69,7 +93,7 @@ function Home() {
               image={product.image}
               name={product.title}
               price={product.price}
-              onAdd={() => addToCart(product)}
+              onAdd={() => handleAdd(product)}
             />
           ))
         ) : (

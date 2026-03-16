@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-function ProductDetail() {
+function ProductDetail({ showToast }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ function ProductDetail() {
   function handleAdd() {
     addToCart(product);
     setAdded(true);
+    showToast(`${product.title.slice(0, 20)}... added to cart! ✅`);
     setTimeout(() => setAdded(false), 1500);
   }
 
